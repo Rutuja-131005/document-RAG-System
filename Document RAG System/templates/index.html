@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document RAG System</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="main-header">
+            <div class="header-content">
+                <span class="icon-books"></span>
+                <div class="header-text">
+                    <h1>Document RAG System</h1>
+                </div>
+            </div>
+        </header>
+
+        <nav class="tab-nav">
+            <button class="tab-btn" data-tab="upload">
+                 Document Upload
+            </button>
+            <button class="tab-btn active" data-tab="chat">
+                 Ask Questions
+            </button>
+            <button class="tab-btn status-tab" data-tab="status">
+                Status
+            </button>
+        </nav>
+
+        <main>
+            <section id="upload-tab" class="tab-content" style="display: none;">
+                <div class="card upload-card">
+                    <h2>Upload Document</h2>
+                    <div class="upload-area" id="drop-zone">
+                        <input type="file" id="file-input" accept=".txt,.pdf,.docx" hidden>
+                        <label for="file-input" class="upload-label">
+                            <span class="upload-icon">📁</span>
+                            <h3>Click to browse or drag file</h3>
+                            <p>Supports PDF, DOCX, TXT</p>
+                        </label>
+                    </div>
+                    <div id="upload-status" class="status-msg"></div>
+                </div>
+            </section>
+            <section id="chat-tab" class="tab-content active">
+                <div class="card chat-card">
+                    <div class="chat-header">
+                        <h2>Ask a Question</h2>
+                    </div>
+                    <div class="chat-box" id="chat-display">
+                        <div class="empty-state">
+                            <p>Ask anything about your documents...</p>
+                        </div>
+                    </div>
+                    <div class="input-area">
+                        <textarea id="query-input" placeholder="Type your question here..." rows="1"></textarea>
+                        <button id="send-btn">Ask</button>
+                    </div>
+                </div>
+            </section>
+            <section id="status-tab" class="tab-content" style="display: none;">
+                <div class="dashboard-grid">
+                    <div class="stat-card gradient-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-info">
+                            <h3>System Status</h3>
+                            <p id="system-status-text">Checking...</p>
+                        </div>
+                    </div>
+                    <div class="stat-card gradient-card">
+                        <div class="stat-icon"></div>
+                        <div class="stat-info">
+                            <h3>Indexed Chunks</h3>
+                            <p id="chunk-count">0</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>

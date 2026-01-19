@@ -1,0 +1,10 @@
+chromadb
+sentence-transformers
+google-generativeai
+python-dotenv
+tf-keras
+fastapi
+uvicorn
+python-multipart
+pypdf
+python-docx
