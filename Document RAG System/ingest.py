@@ -6,13 +6,11 @@ from sentence_transformers import SentenceTransformer
 import pypdf
 import docx
 
-# Configuration
 CHROMA_PATH = "chroma_db"
 COLLECTION_NAME = "rag_collection"
 MODEL_NAME = "all-MiniLM-L6-v2"
 
 def parse_pdf(file_path):
-    """Extract text from a PDF file."""
     text = ""
     try:
         reader = pypdf.PdfReader(file_path)
@@ -23,7 +21,6 @@ def parse_pdf(file_path):
     return text
 
 def parse_docx(file_path):
-    """Extract text from a DOCX file."""
     text = ""
     try:
         doc = docx.Document(file_path)
@@ -34,7 +31,6 @@ def parse_docx(file_path):
     return text
 
 def parse_txt(file_path):
-    """Extract text from a TXT file."""
     try:
         with open(file_path, "r", encoding="utf-8") as f:
             return f.read()
@@ -43,7 +39,6 @@ def parse_txt(file_path):
         return ""
 
 def load_file(file_path):
-    """Load a single file based on extension."""
     ext = os.path.splitext(file_path)[1].lower()
     if ext == ".pdf":
         return parse_pdf(file_path)
@@ -56,7 +51,6 @@ def load_file(file_path):
         return ""
 
 def split_text(text, chunk_size=1000, overlap=200):
-    """Splits text into chunks of approx `chunk_size` characters with `overlap`."""
     if not text:
         return []
     chunks = []
@@ -69,20 +63,19 @@ def split_text(text, chunk_size=1000, overlap=200):
     return chunks
 
 def ingest_file(file_path):
-    """Ingests a single file into ChromaDB."""
     filename = os.path.basename(file_path)
     print(f"Ingesting file: {filename}")
     
     text = load_file(file_path)
     if not text:
-        print(f"No text extracted from {filename}")
+        print(f"ERROR: No text extracted from {filename}")
         return False
-
+    
     chunks = split_text(text)
     if not chunks:
+        print("ERROR: No chunks created")
         return False
 
-    # Prepare data
     chunked_texts = []
     metadatas = []
     ids = []
@@ -92,7 +85,6 @@ def ingest_file(file_path):
         metadatas.append({"source": filename, "chunk_id": i})
         ids.append(f"{filename}_{i}")
 
-    # ChromaDB
     client = chromadb.PersistentClient(path=CHROMA_PATH)
     ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name=MODEL_NAME)
     collection = client.get_or_create_collection(name=COLLECTION_NAME, embedding_function=ef)
@@ -102,22 +94,18 @@ def ingest_file(file_path):
         metadatas=metadatas,
         ids=ids
     )
-    print(f"Successfully ingested {len(chunks)} chunks from {filename}")
     return True
 
 def ingest_directory(directory="data"):
-    """Batch ingestion for a directory."""
     files = glob.glob(os.path.join(directory, "*"))
     for f in files:
         if os.path.isfile(f):
             ingest_file(f)
 
 def get_collection_stats():
-    """Returns the number of items in the collection."""
     try:
         client = chromadb.PersistentClient(path=CHROMA_PATH)
         ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name=MODEL_NAME)
-        # Check if collection exists first by trying to get it
         try:
             collection = client.get_collection(name=COLLECTION_NAME, embedding_function=ef)
             return collection.count()

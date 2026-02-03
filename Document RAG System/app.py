@@ -9,14 +9,13 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-# Ensure data directory exists
 os.makedirs("data", exist_ok=True)
 
-# Serve static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 class QueryRequest(BaseModel):
     query: str
+    history: list[dict] = []
 
 @app.get("/")
 async def read_root():
@@ -29,7 +28,6 @@ async def upload_document(file: UploadFile = File(...)):
         with open(file_location, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
             
-        # Trigger ingestion
         success = ingest_file(file_location)
         
         if success:
@@ -38,11 +36,14 @@ async def upload_document(file: UploadFile = File(...)):
             return JSONResponse(content={"message": "Failed to extract text from file."}, status_code=400)
             
     except Exception as e:
+        import traceback
+        traceback.print_exc()
+        print(f"ERROR: Upload failed: {e}")
         return JSONResponse(content={"message": str(e)}, status_code=500)
 
 @app.post("/query")
 async def query_endpoint(request: QueryRequest):
-    response_data = query_rag(request.query)
+    response_data = query_rag(request.query, request.history)
     return response_data
 
 @app.get("/status")
