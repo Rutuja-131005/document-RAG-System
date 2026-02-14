@@ -115,13 +115,3 @@ if user_input := st.chat_input("Ask a question about your documents..."):
                 st.error(error_msg)
                 st.session_state.messages.append({"role": "assistant", "content": error_msg})
 
-# Footer
-st.markdown("---")
-st.markdown(
-    """
-    <div style='text-align: center'>
-    <p>Document RAG System | Powered by Streamlit & Google Gemini</p>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
