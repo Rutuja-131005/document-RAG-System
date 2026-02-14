@@ -1,3 +1,5 @@
+streamlit
+longchain
 chromadb
 sentence-transformers
 google-generativeai
