@@ -42,11 +42,8 @@ A full-stack Retrieval-Augmented Generation (RAG) system built with Python, Fast
    - Open the `.env` file.
    - Add your API Key: `GOOGLE_API_KEY=AIzaSy...`
 
-## ▶️ How to Run
- **Start the Server**:
-   ```bash
-   uvicorn app:app --host 0.0.0.0 --port 8000 --reload
-   ```
+## Agile Document
+https://docs.google.com/spreadsheets/d/1eCy74VCtDegFtVy0vvR7MFqczYW7Rmu5DOku6FNwvoc/edit?usp=sharing
 
 ## 📂 Project Structure
 - `app.py`: FastAPI Backend.
