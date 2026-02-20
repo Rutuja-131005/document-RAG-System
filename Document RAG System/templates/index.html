@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document RAG System</title>
+    <link rel="stylesheet" href="/static/style.css?v=CyanGrid">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Document RAG System</h2>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>📁 Document Management</h3>
+                <p class="section-desc">Upload a document (PDF, DOCX, or TXT)</p>
+
+                <div class="upload-widget" id="drop-zone">
+                    <input type="file" id="file-input" accept=".txt,.pdf,.docx" hidden>
+                    <div class="upload-content">
+                        <span class="upload-icon">📄</span>
+                        <p>Drag and drop file here</p>
+                        <p class="limit-text">Limit 200MB per file</p>
+                        <button id="browse-btn" class="secondary-btn">Browse files</button>
+                    </div>
+                    <div id="upload-status" class="status-msg"></div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>📚 Collection Info</h3>
+                <div class="stats-box">
+                    <div class="stat-row">
+                        <span>Chunks Indexed:</span>
+                        <span id="chunk-count" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span id="system-status-text" class="status-badge">Checking...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section flex-grow">
+                <h3>📜 Chat History</h3>
+                <div class="history-list">
+                    <!-- History items will go here -->
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>📂 Uploaded Files</h3>
+                <div class="files-list">
+                    <!-- File items will go here -->
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <button id="new-chat-btn" class="sidebar-btn primary-btn">
+                    <span>+</span> New Chat
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="chat-header">
+                <h1>Ask Questions</h1>
+            </div>
+
+            <div id="chat-display" class="chat-display">
+                <div class="empty-state">
+                    <div class="empty-icon">👋</div>
+                    <h2>Welcome!</h2>
+                    <p>I'm ready to help you with your documents.</p>
+                </div>
+            </div>
+
+            <div class="input-area">
+                <div class="input-box">
+                    <textarea id="query-input" placeholder="Ask a question about your documents..." rows="1"></textarea>
+                    <button id="send-btn" disabled>
+                        <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24"
+                            stroke-linecap="round" stroke-linejoin="round" height="1.2em" width="1.2em"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/static/script.js?v=CyanGrid"></script>
+</body>
+
+</html>
